@@ -50,13 +50,15 @@ export default function OrderForm({ onNewOrder }: OrderFormProps) {
           />
         </Box>
         <Box display="flex" alignItems="center" sx={{ gap: 2, width: 250 }}>
-          <Box
-            component="img"
-            src="chicken.png"
-            alt="chicken"
-            sx={{ width: 50, height: 50 }}
-          />
-          <Typography variant="h5">{chickens}</Typography>
+          <Box display="flex" alignItems="center" sx={{ gap: 2, width: 100 }}>
+            <Box
+              component="img"
+              src="chicken.png"
+              alt="chicken"
+              sx={{ width: 50, height: 50 }}
+            />
+            <Typography variant="h5">{chickens}</Typography>
+          </Box>
           <IconButton
             onClick={() => setChickens(chickens + 0.5)}
             sx={{ border: "1px solid black" }}
@@ -72,13 +74,15 @@ export default function OrderForm({ onNewOrder }: OrderFormProps) {
           </IconButton>
         </Box>
         <Box display="flex" alignItems="center" sx={{ gap: 2, width: 250 }}>
-          <Box
-            component="img"
-            src="potato.png"
-            alt="potato"
-            sx={{ width: 50, height: 50 }}
-          />
-          <Typography variant="h5">{potatoBuckets}</Typography>
+          <Box display="flex" alignItems="center" sx={{ gap: 2, width: 100 }}>
+            <Box
+              component="img"
+              src="potato.png"
+              alt="potato"
+              sx={{ width: 50, height: 50 }}
+            />
+            <Typography variant="h5">{potatoBuckets}</Typography>
+          </Box>
           <IconButton
             onClick={() => setPotatoBuckets(potatoBuckets + 1)}
             sx={{ border: "1px solid black" }}
