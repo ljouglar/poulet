@@ -27,7 +27,7 @@ export default function StatusLine({ orders, onClear }: StatusLineProps) {
       justifyContent="space-between"
     >
       <Typography variant="h3" sx={{ width: 200 }}>
-        Encore
+        À livrer
       </Typography>
       <Box display="flex" alignItems="center" sx={{ gap: 2, width: 200 }}>
         <Typography variant="h5">{undeliveredChickens}</Typography>{" "}
