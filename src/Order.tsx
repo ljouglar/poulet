@@ -16,7 +16,7 @@ interface OrderProps {
 export default function Order({ order, onDelivered }: OrderProps) {
   const { id, name, chickens, potatoBuckets, delivered } = order;
 
-  const handleDelivered = () => {
+  const toggleDelivered = () => {
     onDelivered(id);
   };
 
@@ -52,11 +52,10 @@ export default function Order({ order, onDelivered }: OrderProps) {
       </Box>
       <Button
         variant="contained"
-        onClick={handleDelivered}
-        disabled={delivered}
+        onClick={toggleDelivered}
         sx={{ width: 200 }}
       >
-        {delivered ? "Livré" : "Livrer"}
+        {delivered ? "Annuler" : "Livrer"}
       </Button>
     </Box>
   );

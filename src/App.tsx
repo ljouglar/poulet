@@ -27,10 +27,10 @@ export default function App() {
     ]);
   };
 
-  const handleDelivered = (orderId: number) => {
+  const toggleDelivered = (orderId: number) => {
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
-        order.id === orderId ? { ...order, delivered: true } : order
+        order.id === orderId ? { ...order, delivered: !order.delivered } : order
       )
     );
   };
@@ -43,7 +43,7 @@ export default function App() {
   return (
     <Container>
       <OrderForm onNewOrder={handleNewOrder} />
-      <OrderList orders={orders} onDelivered={handleDelivered} />
+      <OrderList orders={orders} onDelivered={toggleDelivered} />
       <StatusLine orders={orders} onClear={handleClear} />
     </Container>
   );
