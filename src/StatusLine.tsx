@@ -1,11 +1,12 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { OrderType } from "./types";
 
 interface StatusLineProps {
-  orders: OrderType[];
+  orders: Array<OrderType>;
+  onClear: () => void;
 }
 
-export default function StatusLine({ orders }: StatusLineProps) {
+export default function StatusLine({ orders, onClear }: StatusLineProps) {
   const undeliveredOrders = orders.filter((order) => !order.delivered);
   const undeliveredChickens = undeliveredOrders.reduce(
     (total, order) => total + order.chickens,
@@ -25,7 +26,9 @@ export default function StatusLine({ orders }: StatusLineProps) {
       alignItems="center"
       justifyContent="space-between"
     >
-      <Typography variant="h3" sx={{ width: 400 }}>Encore</Typography>
+      <Typography variant="h3" sx={{ width: 200 }}>
+        Encore
+      </Typography>
       <Box display="flex" alignItems="center" sx={{ gap: 2, width: 200 }}>
         <Typography variant="h5">{undeliveredChickens}</Typography>{" "}
         <Box
@@ -44,7 +47,18 @@ export default function StatusLine({ orders }: StatusLineProps) {
           sx={{ width: 50, height: 50 }}
         />
       </Box>
-      <Typography variant="h3" sx={{ width: 200 }}>à livrer</Typography>
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{ width: 200 }}
+        onClick={() => {
+          if (window.confirm("Êtes-vous sûr de vouloir tout effacer ?")) {
+            onClear();
+          }
+        }}
+      >
+        Tout effacer
+      </Button>{" "}
     </Box>
   );
 }

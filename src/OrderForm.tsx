@@ -45,7 +45,7 @@ export default function OrderForm({ onNewOrder }: OrderFormProps) {
           onChange={(e) => setName(e.target.value)}
           required
           inputProps={{ style: { fontSize: 20 } }}
-          sx={{ width: 350 }}
+          sx={{ width: 150 }}
           />
         <Box display="flex" alignItems="center" sx={{ gap: 2, width: 200 }}>
           <Typography variant="h5">{chickens}</Typography>
@@ -91,7 +91,7 @@ export default function OrderForm({ onNewOrder }: OrderFormProps) {
             <RemoveIcon />
           </IconButton>
         </Box>
-        <Button type="submit" variant="contained">
+        <Button type="submit" variant="contained" sx={{ width: 200 }}>
           Ajouter
         </Button>
       </Box>
