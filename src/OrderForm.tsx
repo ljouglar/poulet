@@ -4,8 +4,8 @@ import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import { Box } from "@mui/system";
-import { Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 interface OrderFormProps {
   onNewOrder: (order: {
@@ -40,21 +40,23 @@ export default function OrderForm({ onNewOrder }: OrderFormProps) {
         alignItems="center"
         justifyContent="space-between"
       >
-        <TextField
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          inputProps={{ style: { fontSize: 20 } }}
-          sx={{ width: 150 }}
+        <Box display="flex" alignItems="center" sx={{ width: 200 }}>
+          <TextField
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            inputProps={{ style: { fontSize: 20 } }}
+            sx={{ width: 180 }}
           />
-        <Box display="flex" alignItems="center" sx={{ gap: 2, width: 200 }}>
-          <Typography variant="h5">{chickens}</Typography>
+        </Box>
+        <Box display="flex" alignItems="center" sx={{ gap: 2, width: 250 }}>
           <Box
             component="img"
             src="chicken.png"
             alt="chicken"
             sx={{ width: 50, height: 50 }}
           />
+          <Typography variant="h5">{chickens}</Typography>
           <IconButton
             onClick={() => setChickens(chickens + 0.5)}
             sx={{ border: "1px solid black" }}
@@ -69,14 +71,14 @@ export default function OrderForm({ onNewOrder }: OrderFormProps) {
             <RemoveIcon />
           </IconButton>
         </Box>
-        <Box display="flex" alignItems="center" sx={{ gap: 2, width: 200 }}>
-          <Typography variant="h5">{potatoBuckets}</Typography>
+        <Box display="flex" alignItems="center" sx={{ gap: 2, width: 250 }}>
           <Box
             component="img"
             src="potato.png"
             alt="potato"
             sx={{ width: 50, height: 50 }}
           />
+          <Typography variant="h5">{potatoBuckets}</Typography>
           <IconButton
             onClick={() => setPotatoBuckets(potatoBuckets + 1)}
             sx={{ border: "1px solid black" }}

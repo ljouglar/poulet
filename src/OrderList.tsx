@@ -1,3 +1,4 @@
+import List from "@mui/material/List";
 import Order from "./Order";
 import { OrderType } from "./types";
 
@@ -12,10 +13,10 @@ export default function OrderList({ orders, onDelivered }: OrderListProps) {
   );
 
   return (
-    <div>
+    <List>
       {sortedOrders.map((order) => (
         <Order key={order.id} order={order} onDelivered={onDelivered} />
       ))}
-    </div>
+    </List>
   );
 }

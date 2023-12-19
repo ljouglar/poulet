@@ -29,23 +29,23 @@ export default function StatusLine({ orders, onClear }: StatusLineProps) {
       <Typography variant="h3" sx={{ width: 200 }}>
         À livrer
       </Typography>
-      <Box display="flex" alignItems="center" sx={{ gap: 2, width: 200 }}>
-        <Typography variant="h5">{undeliveredChickens}</Typography>{" "}
+      <Box display="flex" alignItems="center" sx={{ gap: 2, width: 250 }}>
         <Box
           component="img"
           src="chicken.png"
           alt="chicken"
           sx={{ width: 50, height: 50 }}
         />
+        <Typography variant="h5">{undeliveredChickens}</Typography>{" "}
       </Box>
-      <Box display="flex" alignItems="center" sx={{ gap: 2, width: 200 }}>
-        <Typography variant="h5">{undeliveredPotatoBuckets}</Typography>{" "}
+      <Box display="flex" alignItems="center" sx={{ gap: 2, width: 250 }}>
         <Box
           component="img"
           src="potato.png"
           alt="potato"
           sx={{ width: 50, height: 50 }}
         />
+        <Typography variant="h5">{undeliveredPotatoBuckets}</Typography>{" "}
       </Box>
       <Button
         type="submit"
