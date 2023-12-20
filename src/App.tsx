@@ -4,6 +4,7 @@ import OrderList from "./OrderList";
 import StatusLine from "./StatusLine";
 import { OrderType } from "./types";
 import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 
 export default function App() {
   const [orders, setOrders] = useState<Array<OrderType>>(
@@ -43,7 +44,17 @@ export default function App() {
   return (
     <Container>
       <OrderForm onNewOrder={handleNewOrder} />
-      <OrderList orders={orders} onDelivered={toggleDelivered} />
+      <Box
+        sx={{
+          maxHeight: "calc(100vh - 200px)",
+          overflow: "auto",
+          "::-webkit-scrollbar": {
+            display: "none",
+          },
+        }}
+      >
+        <OrderList orders={orders} onDelivered={toggleDelivered} />
+      </Box>
       <StatusLine orders={orders} onClear={handleClear} />
     </Container>
   );

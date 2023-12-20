@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
@@ -19,6 +19,7 @@ export default function OrderForm({ onNewOrder }: OrderFormProps) {
   const [name, setName] = useState("");
   const [chickens, setChickens] = useState(0);
   const [potatoBuckets, setPotatoBuckets] = useState(0);
+  const nameInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -27,6 +28,7 @@ export default function OrderForm({ onNewOrder }: OrderFormProps) {
       setName("");
       setChickens(0);
       setPotatoBuckets(0);
+      nameInputRef.current?.focus();
     }
   };
 
@@ -42,11 +44,13 @@ export default function OrderForm({ onNewOrder }: OrderFormProps) {
       >
         <Box display="flex" alignItems="center" sx={{ width: 200 }}>
           <TextField
+            label="Prénom"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
             inputProps={{ style: { fontSize: 20 } }}
-            sx={{ width: 180 }}
+            sx={{ width: 180, bgcolor: "white" }}
+            inputRef={nameInputRef}
           />
         </Box>
         <Box display="flex" alignItems="center" sx={{ gap: 2, width: 250 }}>
