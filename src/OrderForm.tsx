@@ -35,7 +35,8 @@ export default function OrderForm({ onNewOrder }: OrderFormProps) {
   return (
     <form onSubmit={handleSubmit}>
       <Box
-        bgcolor="lightsalmon"
+        bgcolor="turquoise"
+        color="primary.contrastText"
         p={2}
         my={1}
         display="flex"
@@ -101,7 +102,7 @@ export default function OrderForm({ onNewOrder }: OrderFormProps) {
             <RemoveIcon />
           </IconButton>
         </Box>
-        <Button type="submit" variant="contained" sx={{ width: 200 }}>
+        <Button type="submit" variant="contained" sx={{ width: 100 }}>
           Ajouter
         </Button>
       </Box>

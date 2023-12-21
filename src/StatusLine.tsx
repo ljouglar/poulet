@@ -19,7 +19,8 @@ export default function StatusLine({ orders, onClear }: StatusLineProps) {
 
   return (
     <Box
-      bgcolor="lightblue"
+      bgcolor="salmon"
+      color="primary.contrastText"
       p={2}
       my={1}
       display="flex"
@@ -50,14 +51,14 @@ export default function StatusLine({ orders, onClear }: StatusLineProps) {
       <Button
         type="submit"
         variant="contained"
-        sx={{ width: 200 }}
+        sx={{ width: 100 }}
         onClick={() => {
           if (window.confirm("Êtes-vous sûr de vouloir tout effacer ?")) {
             onClear();
           }
         }}
       >
-        Tout effacer
+        Effacer
       </Button>{" "}
     </Box>
   );

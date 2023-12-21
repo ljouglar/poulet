@@ -22,7 +22,8 @@ export default function Order({ order, onDelivered }: OrderProps) {
 
   return (
     <Box
-      bgcolor={delivered ? "lightgreen" : "pink"}
+      bgcolor={delivered ? "lightblue" : "primary.light"}
+      color="primary.contrastText"
       p={2}
       my={1}
       display="flex"
@@ -53,9 +54,9 @@ export default function Order({ order, onDelivered }: OrderProps) {
       <Button
         variant="contained"
         onClick={toggleDelivered}
-        sx={{ width: 200 }}
+        sx={{ width: 100 }}
       >
-        {delivered ? "Annuler" : "Livrer"}
+        {delivered ? "Relivrer" : "Livrer"}
       </Button>
     </Box>
   );

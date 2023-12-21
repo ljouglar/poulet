@@ -9,7 +9,7 @@ interface OrderListProps {
 
 export default function OrderList({ orders, onDelivered }: OrderListProps) {
   const sortedOrders = [...orders].sort((a, b) =>
-    (a.delivered === b.delivered ? 0 : a.delivered ? 1 : -1) || a.name.localeCompare(b.name)
+    (a.delivered === b.delivered ? 0 : a.delivered ? 1 : -1) // || a.name.localeCompare(b.name)
   );
 
   return (
