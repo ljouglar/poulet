@@ -5,3 +5,10 @@ export type OrderType = {
   potatoBuckets: number;
   delivered: boolean;
 };
+
+export type ConfigType = {
+  chickenQuantity: number;
+  chickenPrice: number;
+  halfChickenPrice: number;
+  potatoBucketPrice: number;
+};
