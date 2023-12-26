@@ -24,7 +24,6 @@ export default function TitleLine({ config, setConfig, orders }: TitleLineProps)
         ? config.potatoBucketPrice
         : parseFloat(potatoBucketPrice),
     });
-    localStorage.setItem('config', JSON.stringify(config));
     setOpen(false);
   };
 
@@ -59,7 +58,8 @@ export default function TitleLine({ config, setConfig, orders }: TitleLineProps)
         <Box display="flex" alignItems="center" sx={{ gap: 2, flex: 3 }}>
           <Box component="img" src="chicken.png" alt="chicken" sx={{ width: 50, height: 50 }} />
           <Typography variant="h5">
-            {deliveredQuantity} livré{deliveredQuantity > 1 ? 's' : ''} / {config.chickenQuantity} (tot+pdt {deliveredPrice}€)
+            {deliveredQuantity} livré{deliveredQuantity > 1 ? 's' : ''} / {config.chickenQuantity} (tot+pdt{' '}
+            {deliveredPrice}€)
           </Typography>
         </Box>
         <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1 }}>
@@ -111,8 +111,12 @@ export default function TitleLine({ config, setConfig, orders }: TitleLineProps)
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Annuler</Button>
-          <Button onClick={() => handleSave()}>Sauvegarder</Button>
+          <Button color="error" onClick={() => setOpen(false)}>
+            Annuler
+          </Button>
+          <Button color="success" onClick={() => handleSave()}>
+            Sauvegarder
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

@@ -17,7 +17,6 @@ export default function App() {
           potatoBucketPrice: 5,
         },
   );
-
   const [orders, setOrders] = useState<Array<OrderType>>(
     localStorage.getItem('orders') ? JSON.parse(localStorage.getItem('orders')!) : [],
   );
@@ -26,6 +25,10 @@ export default function App() {
     localStorage.setItem('orders', JSON.stringify(orders));
   }, [orders]);
 
+  useEffect(() => {
+    localStorage.setItem('config', JSON.stringify(config));
+  }, [config]);
+
   const handleNewOrder = (order: { name: string; chickens: number; potatoBuckets: number }) => {
     setOrders((prevOrders) => [...prevOrders, { id: Date.now(), ...order, delivered: false }]);
   };
@@ -33,6 +36,12 @@ export default function App() {
   const toggleDelivered = (orderId: number) => {
     setOrders((prevOrders) =>
       prevOrders.map((order) => (order.id === orderId ? { ...order, delivered: !order.delivered } : order)),
+    );
+  };
+
+  const handleRemove = (orderId: number) => {
+    setOrders((prevOrders) =>
+      prevOrders.filter((order) => order.id !== orderId),
     );
   };
 
@@ -45,7 +54,7 @@ export default function App() {
     <Container>
       <TitleLine config={config} setConfig={setConfig} orders={orders} />
       <OrderForm onNewOrder={handleNewOrder} config={config} />
-      <OrderList orders={orders} onDelivered={toggleDelivered} config={config} />
+      <OrderList orders={orders} onDelivered={toggleDelivered} handleRemove={handleRemove} config={config} />
       <StatusLine orders={orders} onClear={handleClear} />
     </Container>
   );

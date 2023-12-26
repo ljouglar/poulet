@@ -37,6 +37,7 @@ export default function StatusLine({ orders, onClear }: StatusLineProps) {
         <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1 }}>
           <Button
             type="submit"
+            color="warning"
             variant="contained"
             sx={{ width: 130 }}
             onClick={() => {
@@ -46,7 +47,7 @@ export default function StatusLine({ orders, onClear }: StatusLineProps) {
             }}
           >
             Effacer
-          </Button>{' '}
+          </Button>
         </Box>
       </Box>
     </Box>
