@@ -21,6 +21,10 @@ export default function OrderForm({ onNewOrder, config }: OrderFormProps) {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    if (!name || (!chickens && !potatoBuckets)) {
+      window.confirm('Veuillez entrer un prénom et au moins un poulet ou un godet de pommes de terre');
+      return;
+    }
     if (name && chickens >= 0 && potatoBuckets >= 0) {
       onNewOrder({ name, chickens, potatoBuckets });
       setName('');

@@ -24,7 +24,7 @@ export default function StatusLine({ orders, onClear }: StatusLineProps) {
         justifyContent="space-between"
       >
         <Typography variant="h4" sx={{ flex: 1 }}>
-          Commandés
+          Non livré
         </Typography>
         <Box display="flex" alignItems="center" sx={{ gap: 2, flex: 1 }}>
           <Box component="img" src="chicken.png" alt="chicken" sx={{ width: 50, height: 50 }} />
@@ -34,6 +34,8 @@ export default function StatusLine({ orders, onClear }: StatusLineProps) {
           <Box component="img" src="potato.png" alt="potato" sx={{ width: 50, height: 50 }} />
           <Typography variant="h4">{undeliveredPotatoBuckets}</Typography>{' '}
         </Box>
+        <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1, width: 130 }}></Box>
+        <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1, width: 130 }}></Box>
         <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1 }}>
           <Button
             type="submit"

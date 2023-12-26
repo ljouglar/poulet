@@ -42,19 +42,16 @@ export default function Order({ order, onDelivered, handleRemove, config }: Orde
           <Box component="img" src="potato.png" alt="potato" sx={{ width: 50, height: 50 }} />
           <Typography variant="h5">{potatoBuckets}</Typography>{' '}
         </Box>
-        <Box display="flex" alignItems="center" sx={{ gap: 2, flex: 1 }}>
-          <Typography variant="h5">
-            {Math.floor(chickens) * config.chickenPrice +
-              (chickens - Math.floor(chickens)) * 2 * config.halfChickenPrice +
-              potatoBuckets * config.potatoBucketPrice}
-            €
-          </Typography>
-        </Box>
-        {delivered ? (
+        <Typography variant="h5" sx={{ flex: 1 }}>
+          {Math.floor(chickens) * config.chickenPrice +
+            (chickens - Math.floor(chickens)) * 2 * config.halfChickenPrice +
+            potatoBuckets * config.potatoBucketPrice}
+          €
+        </Typography>
           <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1 }}>
-          </Box>
+          {delivered ? (
+        <></>
         ) : (
-          <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1 }}>
             <Button
               variant="contained"
               color="warning"
@@ -67,8 +64,8 @@ export default function Order({ order, onDelivered, handleRemove, config }: Orde
             >
               Supprimer
             </Button>
-          </Box>
         )}
+          </Box>
         <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1 }}>
           <Button variant="contained" onClick={() => onDelivered(id)} sx={{ width: 130 }}>
             {delivered ? 'Relivrer' : 'Livrer'}

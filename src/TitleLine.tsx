@@ -27,6 +27,14 @@ export default function TitleLine({ config, setConfig, orders }: TitleLineProps)
     setOpen(false);
   };
 
+  const handleCancel = () => {
+    setChickenQuantity(config.chickenQuantity);
+    setChickenPrice('' + config.chickenPrice);
+    setHalfChickenPrice('' + config.halfChickenPrice);
+    setPotatoBucketPrice('' + config.potatoBucketPrice);
+    setOpen(false);
+  }
+
   const deliveredOrders = orders.filter((order) => order.delivered);
 
   const deliveredQuantity = deliveredOrders.reduce((sum, order) => (sum += order.chickens), 0);
@@ -73,7 +81,7 @@ export default function TitleLine({ config, setConfig, orders }: TitleLineProps)
           </Button>{' '}
         </Box>
       </Box>
-      <Dialog open={open} onClose={() => setOpen(false)}>
+      <Dialog open={open} onClose={handleCancel}>
         <DialogTitle>Configuration</DialogTitle>
         <DialogContent>
           <TextField
@@ -111,10 +119,10 @@ export default function TitleLine({ config, setConfig, orders }: TitleLineProps)
           />
         </DialogContent>
         <DialogActions>
-          <Button color="error" onClick={() => setOpen(false)}>
+          <Button color="error" onClick={handleCancel}>
             Annuler
           </Button>
-          <Button color="success" onClick={() => handleSave()}>
+          <Button color="success" onClick={handleSave}>
             Sauvegarder
           </Button>
         </DialogActions>
