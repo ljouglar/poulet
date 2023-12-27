@@ -2,6 +2,8 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ConfigType } from './types';
+import IconButton from '@mui/material/IconButton';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 interface OrderProps {
   order: {
@@ -27,47 +29,45 @@ export default function Order({ order, onDelivered, handleRemove, config }: Orde
         color="primary.contrastText"
         p={2}
         my={1}
+        gap={1}
         display="flex"
         alignItems="center"
         justifyContent="space-between"
       >
-        <Typography variant="h4" sx={{ flex: 1 }}>
+        <Typography variant="h4" width={150}>
           {name}
         </Typography>
-        <Box display="flex" alignItems="center" sx={{ gap: 2, flex: 1 }}>
-          <Box component="img" src="chicken.png" alt="chicken" sx={{ width: 50, height: 50 }} />
+        <Box display="flex" alignItems="center" gap={2} flex={1}>
+          <Box component="img" src="chicken.png" alt="chicken" width={45} height={45} />
           <Typography variant="h5">{chickens}</Typography>{' '}
         </Box>
-        <Box display="flex" alignItems="center" sx={{ gap: 2, flex: 1 }}>
-          <Box component="img" src="potato.png" alt="potato" sx={{ width: 50, height: 50 }} />
+        <Box display="flex" alignItems="center" gap={2} flex={1}>
+          <Box component="img" src="potato.png" alt="potato" width={45} height={45} />
           <Typography variant="h5">{potatoBuckets}</Typography>{' '}
         </Box>
-        <Typography variant="h5" sx={{ flex: 1 }}>
+        <Typography variant="h5" align="right" width={55}>
           {Math.floor(chickens) * config.chickenPrice +
             (chickens - Math.floor(chickens)) * 2 * config.halfChickenPrice +
             potatoBuckets * config.potatoBucketPrice}
           €
         </Typography>
-          <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1 }}>
+        <Box display="flex" alignItems="center" justifyContent="flex-end" gap={1} flex={1}>
           {delivered ? (
-        <></>
-        ) : (
-            <Button
-              variant="contained"
-              color="warning"
-              sx={{ width: 130 }}
+            <Box width={45}></Box>
+          ) : (
+            <IconButton
+              color="error"
               onClick={() => {
                 if (window.confirm('Êtes-vous sûr de vouloir supprimer la commande ?')) {
                   handleRemove(id);
                 }
               }}
+              sx={{ width: 45 }}
             >
-              Supprimer
-            </Button>
-        )}
-          </Box>
-        <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1 }}>
-          <Button variant="contained" onClick={() => onDelivered(id)} sx={{ width: 130 }}>
+              <DeleteForeverIcon />
+            </IconButton>
+          )}
+          <Button variant="contained" onClick={() => onDelivered(id)} sx={{ width: 100 }}>
             {delivered ? 'Relivrer' : 'Livrer'}
           </Button>
         </Box>

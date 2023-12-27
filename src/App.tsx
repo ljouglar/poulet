@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import OrderForm from './OrderForm';
 import OrderList from './OrderList';
-import StatusLine from './StatusLine';
 import { ConfigType, OrderType } from './types';
 import Container from '@mui/material/Container';
-import TitleLine from './TitleLine';
+import StatusLine from './StatusLine';
 
 export default function App() {
   const [config, setConfig] = useState<ConfigType>(
@@ -40,9 +39,7 @@ export default function App() {
   };
 
   const handleRemove = (orderId: number) => {
-    setOrders((prevOrders) =>
-      prevOrders.filter((order) => order.id !== orderId),
-    );
+    setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
   };
 
   const handleClear = () => {
@@ -52,10 +49,9 @@ export default function App() {
 
   return (
     <Container>
-      <TitleLine config={config} setConfig={setConfig} orders={orders} />
       <OrderForm onNewOrder={handleNewOrder} config={config} />
       <OrderList orders={orders} onDelivered={toggleDelivered} handleRemove={handleRemove} config={config} />
-      <StatusLine orders={orders} onClear={handleClear} />
+      <StatusLine config={config} setConfig={setConfig} orders={orders} onClear={handleClear} />
     </Container>
   );
 }

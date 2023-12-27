@@ -42,66 +42,65 @@ export default function OrderForm({ onNewOrder, config }: OrderFormProps) {
         color="primary.contrastText"
         p={2}
         my={1}
+        gap={1}
         display="flex"
         alignItems="center"
         justifyContent="space-between"
       >
-        <Box display="flex" alignItems="center" sx={{ flex: 1 }}>
-          <TextField
-            label="Prénom"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            inputProps={{ style: { fontSize: 20 } }}
-            sx={{ width: 180, bgcolor: 'white' }}
-            inputRef={nameInputRef}
-          />
-        </Box>
-        <Box display="flex" alignItems="center" sx={{ gap: 2, flex: 1 }}>
-          <Box display="flex" alignItems="center" sx={{ gap: 2 }}>
-            <Box component="img" src="chicken.png" alt="chicken" sx={{ width: 50, height: 50 }} />
-            <Typography variant="h5">{chickens}</Typography>
+        <TextField
+          label="Prénom"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          inputProps={{ style: { fontSize: 20, height: 18 } }}
+          sx={{ width: 150, bgcolor: 'white' }}
+          inputRef={nameInputRef}
+        />
+        <Box display="flex" alignItems="center" gap={1} flex={1}>
+          <Box display="flex" alignItems="center" gap={1}>
+            <Box component="img" src="chicken.png" alt="chicken" width={45} height={45} />
+            <Typography variant="h5" width={30}>
+              {chickens}
+            </Typography>
           </Box>
-          <IconButton onClick={() => setChickens(chickens + 0.5)} sx={{ border: '1px solid black' }}>
+          <IconButton onMouseDown={() => setChickens(chickens + 0.5)} sx={{ border: '1px solid black' }}>
             <AddIcon />
           </IconButton>
           <IconButton
-            onClick={() => setChickens(chickens - 0.5)}
+            onMouseDown={() => setChickens(chickens - 0.5)}
             disabled={chickens <= 0}
             sx={{ border: '1px solid black' }}
           >
             <RemoveIcon />
           </IconButton>
         </Box>
-        <Box display="flex" alignItems="center" sx={{ gap: 2, flex: 1 }}>
-          <Box display="flex" alignItems="center" sx={{ gap: 2 }}>
-            <Box component="img" src="potato.png" alt="potato" sx={{ width: 50, height: 50 }} />
-            <Typography variant="h5">{potatoBuckets}</Typography>
+        <Box display="flex" alignItems="center" gap={1} flex={1}>
+          <Box display="flex" alignItems="center" gap={1}>
+            <Box component="img" src="potato.png" alt="potato" width={45} height={45} />
+            <Typography variant="h5" width={30}>
+              {potatoBuckets}
+            </Typography>
           </Box>
-          <IconButton onClick={() => setPotatoBuckets(potatoBuckets + 1)} sx={{ border: '1px solid black' }}>
+          <IconButton onMouseDown={() => setPotatoBuckets(potatoBuckets + 1)} sx={{ border: '1px solid black' }}>
             <AddIcon />
           </IconButton>
           <IconButton
-            onClick={() => setPotatoBuckets(potatoBuckets - 1)}
+            onMouseDown={() => setPotatoBuckets(potatoBuckets - 1)}
             disabled={potatoBuckets <= 0}
             sx={{ border: '1px solid black' }}
           >
             <RemoveIcon />
           </IconButton>
         </Box>
-        <Box display="flex" alignItems="center" sx={{ gap: 2, flex: 1 }}>
-          <Typography variant="h5">
-            {Math.floor(chickens) * config.chickenPrice +
-              (chickens - Math.floor(chickens)) * 2 * config.halfChickenPrice +
-              potatoBuckets * config.potatoBucketPrice}
-            €
-          </Typography>
-        </Box>
-        <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1 }}>
-          <Button type="submit" variant="contained" sx={{ width: 130 }} onClick={handleSubmit}>
-            Ajouter
-          </Button>
-        </Box>
+        <Typography align="right" variant="h5" width={55}>
+          {Math.floor(chickens) * config.chickenPrice +
+            (chickens - Math.floor(chickens)) * 2 * config.halfChickenPrice +
+            potatoBuckets * config.potatoBucketPrice}
+          €
+        </Typography>
+        <Button type="submit" variant="contained" sx={{ width: 100 }} onClick={handleSubmit}>
+          Ajouter
+        </Button>
       </Box>
     </Box>
   );

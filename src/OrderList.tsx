@@ -17,9 +17,9 @@ export default function OrderList({ orders, onDelivered, handleRemove, config }:
 
   return (
     <Box
+      maxHeight="calc(100vh - 220px)"
+      overflow="auto"
       sx={{
-        maxHeight: 'calc(100vh - 330px)',
-        overflow: 'auto',
         '::-webkit-scrollbar': { display: 'none' },
       }}
     >

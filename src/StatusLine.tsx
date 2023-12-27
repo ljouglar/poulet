@@ -1,15 +1,59 @@
-import { Box, Button, Typography } from '@mui/material';
-import { OrderType } from './types';
+import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { useRef, useState } from 'react';
+import { ConfigType, OrderType } from './types';
 
-interface StatusLineProps {
-  orders: Array<OrderType>;
+interface TitleLineProps {
+  config: ConfigType;
+  setConfig: (config: ConfigType) => void;
+  orders: OrderType[];
   onClear: () => void;
 }
 
-export default function StatusLine({ orders, onClear }: StatusLineProps) {
-  const undeliveredOrders = orders.filter((order) => !order.delivered);
-  const undeliveredChickens = undeliveredOrders.reduce((total, order) => total + order.chickens, 0);
-  const undeliveredPotatoBuckets = undeliveredOrders.reduce((total, order) => total + order.potatoBuckets, 0);
+export default function StatusLine({ config, setConfig, orders, onClear }: TitleLineProps) {
+  const [open, setOpen] = useState(false);
+  const [chickenQuantity, setChickenQuantity] = useState(config.chickenQuantity);
+  const [chickenPrice, setChickenPrice] = useState('' + config.chickenPrice);
+  const [halfChickenPrice, setHalfChickenPrice] = useState('' + config.halfChickenPrice);
+  const [potatoBucketPrice, setPotatoBucketPrice] = useState('' + config.potatoBucketPrice);
+  const nameInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSave = () => {
+    setConfig({
+      chickenQuantity,
+      chickenPrice: isNaN(parseFloat(chickenPrice)) ? config.chickenPrice : parseFloat(chickenPrice),
+      halfChickenPrice: isNaN(parseFloat(halfChickenPrice)) ? config.halfChickenPrice : parseFloat(halfChickenPrice),
+      potatoBucketPrice: isNaN(parseFloat(potatoBucketPrice))
+        ? config.potatoBucketPrice
+        : parseFloat(potatoBucketPrice),
+    });
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    setChickenQuantity(config.chickenQuantity);
+    setChickenPrice('' + config.chickenPrice);
+    setHalfChickenPrice('' + config.halfChickenPrice);
+    setPotatoBucketPrice('' + config.potatoBucketPrice);
+    setOpen(false);
+  };
+
+  const getOrderPrice = (sum: number, order: OrderType) =>
+    (sum +=
+      Math.floor(order.chickens) * config.chickenPrice +
+      (order.chickens - Math.floor(order.chickens)) * 2 * config.halfChickenPrice +
+      order.potatoBuckets * config.potatoBucketPrice);
+
+  const deliveredOrders = orders.filter((order) => order.delivered);
+  const deliveredQuantity = deliveredOrders.reduce((sum, order) => (sum += order.chickens), 0);
+  const deliveredPrice = deliveredOrders.reduce(getOrderPrice, 0);
+
+  const waitingOrders = orders.filter((order) => !order.delivered);
+  const waitingQuantity = waitingOrders.reduce((sum, order) => (sum += order.chickens), 0);
+  const waitingPrice = waitingOrders.reduce(getOrderPrice, 0);
 
   return (
     <Box width="100%" display="flex" alignItems="center">
@@ -23,35 +67,114 @@ export default function StatusLine({ orders, onClear }: StatusLineProps) {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Typography variant="h4" sx={{ flex: 1 }}>
-          Non livré
-        </Typography>
-        <Box display="flex" alignItems="center" sx={{ gap: 2, flex: 1 }}>
-          <Box component="img" src="chicken.png" alt="chicken" sx={{ width: 50, height: 50 }} />
-          <Typography variant="h4">{undeliveredChickens}</Typography>{' '}
-        </Box>
-        <Box display="flex" alignItems="center" sx={{ gap: 2, flex: 1 }}>
-          <Box component="img" src="potato.png" alt="potato" sx={{ width: 50, height: 50 }} />
-          <Typography variant="h4">{undeliveredPotatoBuckets}</Typography>{' '}
-        </Box>
-        <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1, width: 130 }}></Box>
-        <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1, width: 130 }}></Box>
-        <Box display="flex" alignItems="center" justifyContent="flex-end" sx={{ gap: 2, flex: 1 }}>
-          <Button
-            type="submit"
-            color="warning"
-            variant="contained"
-            sx={{ width: 130 }}
-            onClick={() => {
-              if (window.confirm('Êtes-vous sûr de vouloir tout effacer ?')) {
-                onClear();
-              }
-            }}
+        <Box display="flex" alignItems="center" gap={1} flex={3}>
+          <Typography
+            bgcolor="primary.light"
+            variant="h5"
+            width={130}
+            height={40}
+            style={{ display: 'flex', alignItems: 'end', justifyContent: 'center' }}
           >
-            Effacer
-          </Button>
+            {waitingQuantity} en att.
+          </Typography>
+          <Typography variant="h5">+</Typography>
+          <Typography
+            bgcolor="lightBlue"
+            variant="h5"
+            width={130}
+            height={40}
+            style={{ display: 'flex', alignItems: 'end', justifyContent: 'center' }}
+          >
+            {deliveredQuantity} livré{deliveredQuantity > 1 ? 's' : ''}
+          </Typography>
+          <Typography variant="h5">=</Typography>
+          <Typography
+            variant="h5"
+            height={40}
+            style={{ display: 'flex', alignItems: 'end', justifyContent: 'center' }}
+            color={deliveredQuantity + waitingQuantity > config.chickenQuantity ? 'error' : ''}
+          >
+            {deliveredQuantity + waitingQuantity} / {config.chickenQuantity}
+          </Typography>
+          <Box display="flex" alignItems="center" justifyContent="flex-end" flex={1}>
+            <Typography
+              variant="h5"
+              height={40}
+              style={{ display: 'flex', alignItems: 'end', justifyContent: 'center' }}
+            >
+              Total {deliveredPrice + waitingPrice}€
+            </Typography>
+          </Box>
         </Box>
+        <IconButton
+          color="error"
+          onClick={() => {
+            if (window.confirm('Êtes-vous sûr de vouloir tout effacer ?\nToutes les commandes seront perdues')) {
+              onClear();
+            }
+          }}
+          sx={{ width: 45 }}
+        >
+          <DeleteForeverIcon />
+        </IconButton>
+        <Button type="submit" variant="contained" sx={{ width: 100 }} onClick={() => setOpen(true)}>
+          Config
+        </Button>{' '}
       </Box>
+      <Dialog open={open} onClose={handleCancel} disableRestoreFocus={true}>
+        <DialogTitle>Configuration</DialogTitle>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSave();
+          }}
+        >
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Nombre de poulets apportés"
+              type="number"
+              fullWidth
+              value={chickenQuantity}
+              onChange={(e) => setChickenQuantity(+e.target.value)}
+              inputRef={nameInputRef}
+            />
+            <TextField
+              margin="dense"
+              label="Prix du poulet"
+              type="text"
+              fullWidth
+              value={chickenPrice}
+              onChange={(e) => setChickenPrice(e.target.value)}
+            />
+            <TextField
+              margin="dense"
+              label="Prix du demi-poulet"
+              type="text"
+              fullWidth
+              value={halfChickenPrice}
+              onChange={(e) => setHalfChickenPrice(e.target.value)}
+            />
+            <TextField
+              margin="dense"
+              label="Prix du godet de pommes de terre"
+              type="text"
+              fullWidth
+              value={potatoBucketPrice}
+              onChange={(e) => setPotatoBucketPrice(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button color="error" onClick={handleCancel}>
+              Annuler
+            </Button>
+            <Button color="success" type="submit">
+              Sauvegarder
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>{' '}
     </Box>
   );
 }
