@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { ConfigType } from './types';
+import { ConfigType } from '../types';
 
 interface OrderFormProps {
   onNewOrder: (order: { name: string; chickens: number; potatoBuckets: number }) => void;
@@ -43,6 +43,7 @@ export default function OrderForm({ onNewOrder, config }: OrderFormProps) {
         p={2}
         my={1}
         gap={1}
+        border="1px solid darkTurquoise"
         display="flex"
         alignItems="center"
         justifyContent="space-between"

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import OrderForm from './OrderForm';
 import OrderList from './OrderList';
-import { ConfigType, OrderType } from './types';
+import { ConfigType, OrderType } from '../types';
 import Container from '@mui/material/Container';
 import StatusLine from './StatusLine';
 

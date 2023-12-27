@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useRef, useState } from 'react';
-import { ConfigType, OrderType } from './types';
+import { ConfigType, OrderType } from '../types';
 
 interface TitleLineProps {
   config: ConfigType;
@@ -63,6 +63,7 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
         color="primary.contrastText"
         p={2}
         my={1}
+        border="1px solid darkSalmon"
         display="flex"
         alignItems="center"
         justifyContent="space-between"
@@ -73,7 +74,8 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
             variant="h5"
             width={130}
             height={40}
-            style={{ display: 'flex', alignItems: 'end', justifyContent: 'center' }}
+            border="1px solid #1976d2"
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
             {waitingQuantity} en att.
           </Typography>
@@ -83,27 +85,17 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
             variant="h5"
             width={130}
             height={40}
-            style={{ display: 'flex', alignItems: 'end', justifyContent: 'center' }}
+            border="1px solid #42a5f5"
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
             {deliveredQuantity} livré{deliveredQuantity > 1 ? 's' : ''}
           </Typography>
           <Typography variant="h5">=</Typography>
-          <Typography
-            variant="h5"
-            height={40}
-            style={{ display: 'flex', alignItems: 'end', justifyContent: 'center' }}
-            color={deliveredQuantity + waitingQuantity > config.chickenQuantity ? 'error' : ''}
-          >
+          <Typography variant="h5" color={deliveredQuantity + waitingQuantity > config.chickenQuantity ? 'error' : ''}>
             {deliveredQuantity + waitingQuantity} / {config.chickenQuantity}
           </Typography>
           <Box display="flex" alignItems="center" justifyContent="flex-end" flex={1}>
-            <Typography
-              variant="h5"
-              height={40}
-              style={{ display: 'flex', alignItems: 'end', justifyContent: 'center' }}
-            >
-              Total {deliveredPrice + waitingPrice}€
-            </Typography>
+            <Typography variant="h5"> {deliveredPrice + waitingPrice}€ </Typography>
           </Box>
         </Box>
         <IconButton

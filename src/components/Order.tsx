@@ -1,7 +1,7 @@
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { ConfigType } from './types';
+import { ConfigType } from '../types';
 import IconButton from '@mui/material/IconButton';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
@@ -30,6 +30,7 @@ export default function Order({ order, onDelivered, handleRemove, config }: Orde
         p={2}
         my={1}
         gap={1}
+        border={delivered ? '1px solid #42a5f5' : '1px solid #1976d2'}
         display="flex"
         alignItems="center"
         justifyContent="space-between"

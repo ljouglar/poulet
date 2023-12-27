@@ -1,7 +1,7 @@
 import List from '@mui/material/List';
 import Box from '@mui/material/Box';
 import Order from './Order';
-import { ConfigType, OrderType } from './types';
+import { ConfigType, OrderType } from '../types';
 
 interface OrderListProps {
   orders: OrderType[];
