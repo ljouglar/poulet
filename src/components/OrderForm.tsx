@@ -64,10 +64,15 @@ export default function OrderForm({ onNewOrder, config }: OrderFormProps) {
               {chickens}
             </Typography>
           </Box>
-          <IconButton onMouseDown={() => setChickens(chickens + 0.5)} sx={{ border: '1px solid black' }}>
+          <IconButton
+            title="Ajouter un demi poulet"
+            onMouseDown={() => setChickens(chickens + 0.5)}
+            sx={{ border: '1px solid black' }}
+          >
             <AddIcon />
           </IconButton>
           <IconButton
+            title="Enlever un demi poulet"
             onMouseDown={() => setChickens(chickens - 0.5)}
             disabled={chickens <= 0}
             sx={{ border: '1px solid black' }}
@@ -82,10 +87,15 @@ export default function OrderForm({ onNewOrder, config }: OrderFormProps) {
               {potatoBuckets}
             </Typography>
           </Box>
-          <IconButton onMouseDown={() => setPotatoBuckets(potatoBuckets + 1)} sx={{ border: '1px solid black' }}>
+          <IconButton
+            title="Ajouter un godet de pommes de terre"
+            onMouseDown={() => setPotatoBuckets(potatoBuckets + 1)}
+            sx={{ border: '1px solid black' }}
+          >
             <AddIcon />
           </IconButton>
           <IconButton
+            title="Enlever un godet de pommes de terre"
             onMouseDown={() => setPotatoBuckets(potatoBuckets - 1)}
             disabled={potatoBuckets <= 0}
             sx={{ border: '1px solid black' }}
