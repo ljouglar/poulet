@@ -52,7 +52,8 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
   const deliveredPrice = deliveredOrders.reduce(getOrderPrice, 0);
 
   const waitingOrders = orders.filter((order) => !order.delivered);
-  const waitingQuantity = waitingOrders.reduce((sum, order) => (sum += order.chickens), 0);
+  const waitingChickenQuantity = waitingOrders.reduce((sum, order) => (sum += order.chickens), 0);
+  const waitingPotatoQuantity = waitingOrders.reduce((sum, order) => (sum += order.potatoBuckets), 0);
   const waitingPrice = waitingOrders.reduce(getOrderPrice, 0);
 
   return (
@@ -72,12 +73,12 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
           <Typography
             bgcolor="primary.light"
             variant="h5"
-            width={130}
+            width={150}
             height={40}
             border="1px solid #1976d2"
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
-            {waitingQuantity} en att.
+            {waitingChickenQuantity} ({waitingPotatoQuantity}) att.
           </Typography>
           <Typography variant="h5">+</Typography>
           <Typography
@@ -91,8 +92,8 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
             {deliveredQuantity} livré{deliveredQuantity > 1 ? 's' : ''}
           </Typography>
           <Typography variant="h5">=</Typography>
-          <Typography variant="h5" color={deliveredQuantity + waitingQuantity > config.chickenQuantity ? 'error' : ''}>
-            {deliveredQuantity + waitingQuantity} / {config.chickenQuantity}
+          <Typography variant="h5" color={deliveredQuantity + waitingChickenQuantity > config.chickenQuantity ? 'error' : ''}>
+            {deliveredQuantity + waitingChickenQuantity} / {config.chickenQuantity}
           </Typography>
           <Box display="flex" alignItems="center" justifyContent="flex-end" flex={1}>
             <Typography variant="h5"> {deliveredPrice + waitingPrice}€ </Typography>
