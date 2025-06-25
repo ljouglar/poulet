@@ -9,11 +9,12 @@ export default function App() {
   const [config, setConfig] = useState<ConfigType>(
     localStorage.getItem('config')
       ? JSON.parse(localStorage.getItem('config') as string)
-      : {
+        : {
           chickenQuantity: 0,
           chickenPrice: 18,
           halfChickenPrice: 9,
           potatoBucketPrice: 5,
+          confirmDelete: true,
         },
   );
   const [orders, setOrders] = useState<Array<OrderType>>(
@@ -30,6 +31,10 @@ export default function App() {
 
   const handleNewOrder = (order: { name: string; chickens: number; potatoBuckets: number }) => {
     setOrders((prevOrders) => [...prevOrders, { id: Date.now(), ...order, delivered: false }]);
+  };
+
+  const handleDirectDelivery = (order: { name: string; chickens: number; potatoBuckets: number }) => {
+    setOrders((prevOrders) => [...prevOrders, { id: Date.now(), ...order, delivered: true }]);
   };
 
   const toggleDelivered = (orderId: number) => {
@@ -49,7 +54,7 @@ export default function App() {
 
   return (
     <Container>
-      <OrderForm onNewOrder={handleNewOrder} config={config} />
+      <OrderForm onNewOrder={handleNewOrder} onDirectDelivery={handleDirectDelivery} config={config} orders={orders} />
       <OrderList orders={orders} onDelivered={toggleDelivered} handleRemove={handleRemove} config={config} />
       <StatusLine config={config} setConfig={setConfig} orders={orders} onClear={handleClear} />
     </Container>

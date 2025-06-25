@@ -11,4 +11,5 @@ export type ConfigType = {
   chickenPrice: number;
   halfChickenPrice: number;
   potatoBucketPrice: number;
+  confirmDelete: boolean;
 };

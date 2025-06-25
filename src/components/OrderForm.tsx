@@ -6,23 +6,38 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { ConfigType } from '../types';
+import { ConfigType, OrderType } from '../types';
 
 interface OrderFormProps {
   onNewOrder: (order: { name: string; chickens: number; potatoBuckets: number }) => void;
+  onDirectDelivery: (order: { name: string; chickens: number; potatoBuckets: number }) => void;
   config: ConfigType;
+  orders: OrderType[];
 }
 
-export default function OrderForm({ onNewOrder, config }: OrderFormProps) {
+export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders }: OrderFormProps) {
   const [name, setName] = useState('');
   const [chickens, setChickens] = useState(0);
   const [potatoBuckets, setPotatoBuckets] = useState(0);
   const nameInputRef = useRef<HTMLInputElement>(null);
 
+  // Calcul du stock de poulets utilisé
+  const totalChickensUsed = orders.reduce((sum, order) => sum + order.chickens, 0);
+  const remainingChickens = config.chickenQuantity - totalChickensUsed;
+
+  // Fonction pour vérifier si on peut ajouter la quantité demandée
+  const canAddChickens = (requestedChickens: number) => {
+    return remainingChickens >= requestedChickens;
+  };
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!name || (!chickens && !potatoBuckets)) {
       window.confirm('Veuillez entrer un nom et au moins un poulet ou un godet de pommes de terre');
+      return;
+    }
+    if (chickens > 0 && !canAddChickens(chickens)) {
+      window.confirm(`Stock insuffisant ! Il ne reste que ${remainingChickens} poulet(s) disponible(s).`);
       return;
     }
     if (name && chickens >= 0 && potatoBuckets >= 0) {
@@ -32,6 +47,24 @@ export default function OrderForm({ onNewOrder, config }: OrderFormProps) {
       setPotatoBuckets(0);
       nameInputRef.current?.focus();
     }
+  };
+
+  const handleDirectDelivery = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!chickens && !potatoBuckets) {
+      window.confirm('Veuillez entrer au moins un poulet ou un godet de pommes de terre');
+      return;
+    }
+    if (chickens > 0 && !canAddChickens(chickens)) {
+      window.confirm(`Stock insuffisant ! Il ne reste que ${remainingChickens} poulet(s) disponible(s).`);
+      return;
+    }
+    const customerName = name.trim() || 'En direct';
+    onDirectDelivery({ name: customerName, chickens, potatoBuckets });
+    setName('');
+    setChickens(0);
+    setPotatoBuckets(0);
+    nameInputRef.current?.focus();
   };
 
   return (
@@ -65,8 +98,9 @@ export default function OrderForm({ onNewOrder, config }: OrderFormProps) {
             </Typography>
           </Box>
           <IconButton
-            title="Ajouter un demi poulet"
+            title={`Ajouter un demi poulet (${remainingChickens} restants)`}
             onMouseDown={() => setChickens(chickens + 0.5)}
+            disabled={remainingChickens < 0.5}
             sx={{ border: '1px solid black' }}
           >
             <AddIcon />
@@ -109,9 +143,19 @@ export default function OrderForm({ onNewOrder, config }: OrderFormProps) {
             potatoBuckets * config.potatoBucketPrice}
           €
         </Typography>
-        <Button type="submit" variant="contained" sx={{ width: 100 }} onClick={handleSubmit}>
-          Ajouter
-        </Button>
+        <Box display="flex" gap={1}>
+          <Button type="submit" variant="contained" sx={{ width: 100 }} onClick={handleSubmit}>
+            Command
+          </Button>
+          <Button 
+            variant="contained" 
+            color="success" 
+            sx={{ width: 120 }} 
+            onClick={handleDirectDelivery}
+          >
+            Direct
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

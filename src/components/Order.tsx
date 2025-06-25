@@ -59,7 +59,11 @@ export default function Order({ order, onDelivered, handleRemove, config }: Orde
             <IconButton
               color="error"
               onClick={() => {
-                if (window.confirm('Êtes-vous sûr de vouloir supprimer la commande ?')) {
+                if (config.confirmDelete) {
+                  if (window.confirm('Êtes-vous sûr de vouloir supprimer la commande ?')) {
+                    handleRemove(id);
+                  }
+                } else {
                   handleRemove(id);
                 }
               }}

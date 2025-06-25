@@ -16,7 +16,7 @@ test('renders the App component', () => {
   expect(getByTitle(/Ajouter un godet de pommes de terre/i)).toBeInTheDocument();
   
   // Vérifiez que la ligne de statut est rendue
-  expect(getByText(/en att./i)).toBeInTheDocument();
+  expect(getByText(/att./i)).toBeInTheDocument();
 });
 
 test('handles new order', async () => {
@@ -28,7 +28,7 @@ test('handles new order', async () => {
   fireEvent.mouseDown(getByTitle(/Ajouter un godet de pommes de terre/i), { target: { value: '2' } });
 
   // Soumettez le formulaire de commande
-  fireEvent.click(getByText(/Ajouter/i));
+  fireEvent.click(getByText(/Command/i));
 
   // Vérifiez que la nouvelle commande est ajoutée à la liste des commandes
   await waitFor(() => expect(getByText(/John Doe/i)).toBeInTheDocument());

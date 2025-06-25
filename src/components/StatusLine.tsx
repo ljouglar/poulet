@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
+import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, FormControlLabel, Checkbox } from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -19,6 +19,7 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
   const [chickenPrice, setChickenPrice] = useState('' + config.chickenPrice);
   const [halfChickenPrice, setHalfChickenPrice] = useState('' + config.halfChickenPrice);
   const [potatoBucketPrice, setPotatoBucketPrice] = useState('' + config.potatoBucketPrice);
+  const [confirmDelete, setConfirmDelete] = useState(config.confirmDelete);
   const nameInputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = () => {
@@ -29,6 +30,7 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
       potatoBucketPrice: isNaN(parseFloat(potatoBucketPrice))
         ? config.potatoBucketPrice
         : parseFloat(potatoBucketPrice),
+      confirmDelete,
     });
     setOpen(false);
   };
@@ -38,6 +40,7 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
     setChickenPrice('' + config.chickenPrice);
     setHalfChickenPrice('' + config.halfChickenPrice);
     setPotatoBucketPrice('' + config.potatoBucketPrice);
+    setConfirmDelete(config.confirmDelete);
     setOpen(false);
   };
 
@@ -156,6 +159,16 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
               fullWidth
               value={potatoBucketPrice}
               onChange={(e) => setPotatoBucketPrice(e.target.value)}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={confirmDelete}
+                  onChange={(e) => setConfirmDelete(e.target.checked)}
+                />
+              }
+              label="Demander confirmation avant suppression de commande"
+              sx={{ mt: 2 }}
             />
           </DialogContent>
           <DialogActions>
