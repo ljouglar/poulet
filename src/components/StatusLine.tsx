@@ -96,7 +96,7 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
           </Typography>
           <Typography variant="h5">=</Typography>
           <Typography variant="h5" color={deliveredQuantity + waitingChickenQuantity > config.chickenQuantity ? 'error' : ''}>
-            {deliveredQuantity + waitingChickenQuantity} / {config.chickenQuantity}
+            {deliveredQuantity + waitingChickenQuantity} / {config.chickenQuantity} - Reste {config.chickenQuantity - (deliveredQuantity + waitingChickenQuantity)}
           </Typography>
           <Box display="flex" alignItems="center" justifyContent="flex-end" flex={1}>
             <Typography variant="h5"> {deliveredPrice + waitingPrice}€ </Typography>

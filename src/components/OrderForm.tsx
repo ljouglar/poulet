@@ -97,22 +97,54 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
               {chickens}
             </Typography>
           </Box>
-          <IconButton
+          <Button
             title={`Ajouter un demi poulet (${remainingChickens} restants)`}
             onMouseDown={() => setChickens(chickens + 0.5)}
             disabled={remainingChickens < 0.5}
-            sx={{ border: '1px solid black' }}
+            variant="contained"
+            size="small"
+            sx={{ 
+              minWidth: '40px', 
+              height: '40px', 
+              border: '1px solid black',
+              fontSize: '18px',
+              fontWeight: 'bold'
+            }}
           >
-            <AddIcon />
-          </IconButton>
-          <IconButton
+            +
+          </Button>
+          <Button
+            title={`Ajouter un poulet entier (${remainingChickens} restants)`}
+            onMouseDown={() => setChickens(chickens + 1)}
+            disabled={remainingChickens < 1}
+            variant="contained"
+            size="small"
+            sx={{ 
+              minWidth: '40px', 
+              height: '40px', 
+              border: '1px solid black',
+              fontSize: '20px',
+              fontWeight: 'bold'
+            }}
+          >
+            ++
+          </Button>
+          <Button
             title="Enlever un demi poulet"
             onMouseDown={() => setChickens(chickens - 0.5)}
             disabled={chickens <= 0}
-            sx={{ border: '1px solid black' }}
+            variant="contained"
+            size="small"
+            sx={{ 
+              minWidth: '40px', 
+              height: '40px', 
+              border: '1px solid black',
+              fontSize: '18px',
+              fontWeight: 'bold'
+            }}
           >
-            <RemoveIcon />
-          </IconButton>
+            -
+          </Button>
         </Box>
         <Box display="flex" alignItems="center" gap={1} flex={1}>
           <Box display="flex" alignItems="center" gap={1}>
