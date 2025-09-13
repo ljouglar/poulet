@@ -1,9 +1,6 @@
 import React, { useRef, useState } from 'react';
 import TextField from '@mui/material/TextField';
-import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ConfigType, OrderType } from '../types';
