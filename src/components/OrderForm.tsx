@@ -153,21 +153,37 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
               {potatoBuckets}
             </Typography>
           </Box>
-          <IconButton
+          <Button
             title="Ajouter un godet de pommes de terre"
             onMouseDown={() => setPotatoBuckets(potatoBuckets + 1)}
-            sx={{ border: '1px solid black' }}
+            variant="contained"
+            size="small"
+            sx={{ 
+              minWidth: '40px', 
+              height: '40px', 
+              border: '1px solid black',
+              fontSize: '18px',
+              fontWeight: 'bold'
+            }}
           >
-            <AddIcon />
-          </IconButton>
-          <IconButton
+            +
+          </Button>
+          <Button
             title="Enlever un godet de pommes de terre"
             onMouseDown={() => setPotatoBuckets(potatoBuckets - 1)}
             disabled={potatoBuckets <= 0}
-            sx={{ border: '1px solid black' }}
+            variant="contained"
+            size="small"
+            sx={{ 
+              minWidth: '40px', 
+              height: '40px', 
+              border: '1px solid black',
+              fontSize: '18px',
+              fontWeight: 'bold'
+            }}
           >
-            <RemoveIcon />
-          </IconButton>
+            -
+          </Button>
         </Box>
         <Typography align="right" variant="h5" width={55}>
           {Math.floor(chickens) * config.chickenPrice +
