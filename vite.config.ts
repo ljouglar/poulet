@@ -20,7 +20,7 @@ export default defineConfig({
         display: 'standalone',
         start_url: '/poulet/',
         scope: '/poulet/',
-        orientation: 'portrait',
+        orientation: 'landscape',
         icons: [
           {
             src: '/poulet/icon-192.png',
