@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Générateur d'icônes PWA</title>
-</head>
-<body>
+  </head>
+  <body>
     <canvas id="canvas192" width="192" height="192"></canvas>
     <canvas id="canvas512" width="512" height="512"></canvas>
-    <br>
+    <br />
     <button onclick="downloadIcons()">Télécharger les icônes</button>
 
     <script>
-        function createIcon(canvasId, size) {
-            const canvas = document.getElementById(canvasId);
-            const ctx = canvas.getContext('2d');
-            
-            // Background
-            ctx.fillStyle = '#fa8072';
-            ctx.fillRect(0, 0, size, size);
-            
-            // Emoji chicken
-            ctx.font = `${size * 0.4}px Arial`;
-            ctx.fillStyle = 'white';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('🐔', size/2, size/2);
-        }
-        
-        function downloadIcons() {
-            createIcon('canvas192', 192);
-            createIcon('canvas512', 512);
-            
-            // Download 192x192
-            const canvas192 = document.getElementById('canvas192');
-            const link192 = document.createElement('a');
-            link192.download = 'icon-192.png';
-            link192.href = canvas192.toDataURL();
-            link192.click();
-            
-            // Download 512x512
-            const canvas512 = document.getElementById('canvas512');
-            const link512 = document.createElement('a');
-            link512.download = 'icon-512.png';
-            link512.href = canvas512.toDataURL();
-            link512.click();
-        }
-        
-        // Auto-create icons on load
+      function createIcon(canvasId, size) {
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext('2d');
+
+        // Background
+        ctx.fillStyle = '#fa8072';
+        ctx.fillRect(0, 0, size, size);
+
+        // Emoji chicken
+        ctx.font = `${size * 0.4}px Arial`;
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('🐔', size / 2, size / 2);
+      }
+
+      function downloadIcons() {
         createIcon('canvas192', 192);
         createIcon('canvas512', 512);
+
+        // Download 192x192
+        const canvas192 = document.getElementById('canvas192');
+        const link192 = document.createElement('a');
+        link192.download = 'icon-192.png';
+        link192.href = canvas192.toDataURL();
+        link192.click();
+
+        // Download 512x512
+        const canvas512 = document.getElementById('canvas512');
+        const link512 = document.createElement('a');
+        link512.download = 'icon-512.png';
+        link512.href = canvas512.toDataURL();
+        link512.click();
+      }
+
+      // Auto-create icons on load
+      createIcon('canvas192', 192);
+      createIcon('canvas512', 512);
     </script>
-</body>
+  </body>
 </html>
