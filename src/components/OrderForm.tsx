@@ -42,7 +42,8 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
       setName('');
       setChickens(0);
       setPotatoBuckets(0);
-      nameInputRef.current?.focus();
+      // Enlever le focus pour fermer le clavier sur mobile/tablette
+      nameInputRef.current?.blur();
     }
   };
 
@@ -61,7 +62,8 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
     setName('');
     setChickens(0);
     setPotatoBuckets(0);
-    nameInputRef.current?.focus();
+    // Enlever le focus pour fermer le clavier sur mobile/tablette
+    nameInputRef.current?.blur();
   };
 
   return (
@@ -100,12 +102,12 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
             disabled={remainingChickens < 0.5}
             variant="contained"
             size="small"
-            sx={{ 
-              minWidth: '40px', 
-              height: '40px', 
+            sx={{
+              minWidth: '40px',
+              height: '40px',
               border: '1px solid black',
               fontSize: '18px',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
             }}
           >
             +
@@ -116,12 +118,12 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
             disabled={remainingChickens < 1}
             variant="contained"
             size="small"
-            sx={{ 
-              minWidth: '40px', 
-              height: '40px', 
+            sx={{
+              minWidth: '40px',
+              height: '40px',
               border: '1px solid black',
               fontSize: '20px',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
             }}
           >
             ++
@@ -132,12 +134,12 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
             disabled={chickens <= 0}
             variant="contained"
             size="small"
-            sx={{ 
-              minWidth: '40px', 
-              height: '40px', 
+            sx={{
+              minWidth: '40px',
+              height: '40px',
               border: '1px solid black',
               fontSize: '18px',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
             }}
           >
             -
@@ -155,12 +157,12 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
             onMouseDown={() => setPotatoBuckets(potatoBuckets + 1)}
             variant="contained"
             size="small"
-            sx={{ 
-              minWidth: '40px', 
-              height: '40px', 
+            sx={{
+              minWidth: '40px',
+              height: '40px',
               border: '1px solid black',
               fontSize: '18px',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
             }}
           >
             +
@@ -171,12 +173,12 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
             disabled={potatoBuckets <= 0}
             variant="contained"
             size="small"
-            sx={{ 
-              minWidth: '40px', 
-              height: '40px', 
+            sx={{
+              minWidth: '40px',
+              height: '40px',
               border: '1px solid black',
               fontSize: '18px',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
             }}
           >
             -
@@ -192,12 +194,7 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
           <Button type="submit" variant="contained" sx={{ width: 100 }} onClick={handleSubmit}>
             Command
           </Button>
-          <Button 
-            variant="contained" 
-            color="success" 
-            sx={{ width: 120 }} 
-            onClick={handleDirectDelivery}
-          >
+          <Button variant="contained" color="success" sx={{ width: 120 }} onClick={handleDirectDelivery}>
             Direct
           </Button>
         </Box>
