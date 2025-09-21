@@ -18,11 +18,11 @@ export default defineConfig({
         theme_color: '#fa8072',
         background_color: '#ffffff',
         display: 'standalone',
-        start_url: '/',
-        scope: '/',
+        start_url: '/poulet/',
+        scope: '/poulet/',
         icons: [
           {
-            src: 'chicken.png',
+            src: '/poulet/chicken.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable',
