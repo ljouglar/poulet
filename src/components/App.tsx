@@ -10,7 +10,7 @@ export default function App() {
     localStorage.getItem('config')
       ? JSON.parse(localStorage.getItem('config') as string)
         : {
-          chickenQuantity: 0,
+          chickenQuantity: 50,
           chickenPrice: 18,
           halfChickenPrice: 9,
           potatoBucketPrice: 5,
