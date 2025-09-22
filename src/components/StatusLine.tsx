@@ -1,10 +1,22 @@
-import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, FormControlLabel, Checkbox } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  DialogActions,
+  FormControlLabel,
+  Checkbox,
+} from '@mui/material';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useRef, useState } from 'react';
 import { ConfigType, OrderType } from '../types';
+import { useConfirmation, useNotification } from '../hooks/useDialog';
+import ConfirmDialog from './ConfirmDialog';
+import Notification from './Notification';
 
 interface TitleLineProps {
   config: ConfigType;
@@ -19,6 +31,9 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
   const [chickenPrice, setChickenPrice] = useState('' + config.chickenPrice);
   const [halfChickenPrice, setHalfChickenPrice] = useState('' + config.halfChickenPrice);
   const [potatoBucketPrice, setPotatoBucketPrice] = useState('' + config.potatoBucketPrice);
+
+  const { confirmState, confirm, handleCancel: handleConfirmCancel } = useConfirmation();
+  const { notificationState, notify, handleClose: handleNotificationClose } = useNotification();
   const [confirmDelete, setConfirmDelete] = useState(config.confirmDelete);
   const nameInputRef = useRef<HTMLInputElement>(null);
 
@@ -33,6 +48,10 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
       confirmDelete,
     });
     setOpen(false);
+    notify({
+      message: 'Configuration sauvegardée avec succès',
+      severity: 'success',
+    });
   };
 
   const handleCancel = () => {
@@ -95,8 +114,12 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
             {deliveredQuantity} livré{deliveredQuantity > 1 ? 's' : ''}
           </Typography>
           <Typography variant="h5">=</Typography>
-          <Typography variant="h5" color={deliveredQuantity + waitingChickenQuantity > config.chickenQuantity ? 'error' : ''}>
-            {deliveredQuantity + waitingChickenQuantity} / {config.chickenQuantity} - Reste {config.chickenQuantity - (deliveredQuantity + waitingChickenQuantity)}
+          <Typography
+            variant="h5"
+            color={deliveredQuantity + waitingChickenQuantity > config.chickenQuantity ? 'error' : ''}
+          >
+            {deliveredQuantity + waitingChickenQuantity} / {config.chickenQuantity} - Reste{' '}
+            {config.chickenQuantity - (deliveredQuantity + waitingChickenQuantity)}
           </Typography>
           <Box display="flex" alignItems="center" justifyContent="flex-end" flex={1}>
             <Typography variant="h5"> {deliveredPrice + waitingPrice}€ </Typography>
@@ -104,9 +127,21 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
         </Box>
         <IconButton
           color="error"
-          onClick={() => {
-            if (window.confirm('Êtes-vous sûr de vouloir tout effacer ?\nToutes les commandes seront perdues')) {
+          onClick={async () => {
+            const confirmed = await confirm({
+              title: 'Confirmation',
+              message: 'Êtes-vous sûr de vouloir tout effacer ?\nToutes les commandes seront perdues',
+              severity: 'warning',
+              confirmText: 'Effacer',
+              cancelText: 'Annuler',
+            });
+
+            if (confirmed) {
               onClear();
+              notify({
+                message: 'Toutes les commandes ont été supprimées',
+                severity: 'success',
+              });
             }
           }}
           sx={{ width: 45 }}
@@ -161,12 +196,7 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
               onChange={(e) => setPotatoBucketPrice(e.target.value)}
             />
             <FormControlLabel
-              control={
-                <Checkbox
-                  checked={confirmDelete}
-                  onChange={(e) => setConfirmDelete(e.target.checked)}
-                />
-              }
+              control={<Checkbox checked={confirmDelete} onChange={(e) => setConfirmDelete(e.target.checked)} />}
               label="Demander confirmation avant suppression de commande"
               sx={{ mt: 2 }}
             />
@@ -180,7 +210,26 @@ export default function StatusLine({ config, setConfig, orders, onClear }: Title
             </Button>
           </DialogActions>
         </form>
-      </Dialog>{' '}
+      </Dialog>
+
+      <ConfirmDialog
+        open={confirmState.open}
+        title={confirmState.options.title}
+        message={confirmState.options.message}
+        confirmText={confirmState.options.confirmText}
+        cancelText={confirmState.options.cancelText}
+        severity={confirmState.options.severity}
+        onConfirm={confirmState.onConfirm || (() => {})}
+        onCancel={handleConfirmCancel}
+      />
+
+      <Notification
+        open={notificationState.open}
+        message={notificationState.options.message}
+        severity={notificationState.options.severity}
+        autoHideDuration={notificationState.options.autoHideDuration}
+        onClose={handleNotificationClose}
+      />
     </Box>
   );
 }

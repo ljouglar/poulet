@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ConfigType, OrderType } from '../types';
+import { useNotification } from '../hooks/useDialog';
+import Notification from './Notification';
 
 interface OrderFormProps {
   onNewOrder: (order: { name: string; chickens: number; potatoBuckets: number }) => void;
@@ -17,6 +19,7 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
   const [chickens, setChickens] = useState(0);
   const [potatoBuckets, setPotatoBuckets] = useState(0);
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const { notificationState, notify, handleClose } = useNotification();
 
   // Calcul du stock de poulets utilisé
   const totalChickensUsed = orders.reduce((sum, order) => sum + order.chickens, 0);
@@ -30,11 +33,17 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (!name || (!chickens && !potatoBuckets)) {
-      window.confirm('Veuillez entrer un nom et au moins un poulet ou un godet de pommes de terre');
+      notify({
+        message: 'Veuillez entrer un nom et au moins un poulet ou un godet de pommes de terre',
+        severity: 'warning',
+      });
       return;
     }
     if (chickens > 0 && !canAddChickens(chickens)) {
-      window.confirm(`Stock insuffisant ! Il ne reste que ${remainingChickens} poulet(s) disponible(s).`);
+      notify({
+        message: `Stock insuffisant ! Il ne reste que ${remainingChickens} poulet(s) disponible(s).`,
+        severity: 'error',
+      });
       return;
     }
     if (name && chickens >= 0 && potatoBuckets >= 0) {
@@ -44,17 +53,27 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
       setPotatoBuckets(0);
       // Enlever le focus pour fermer le clavier sur mobile/tablette
       nameInputRef.current?.blur();
+      notify({
+        message: `Commande ajoutée pour ${name}`,
+        severity: 'success',
+      });
     }
   };
 
   const handleDirectDelivery = (event: React.FormEvent) => {
     event.preventDefault();
     if (!chickens && !potatoBuckets) {
-      window.confirm('Veuillez entrer au moins un poulet ou un godet de pommes de terre');
+      notify({
+        message: 'Veuillez entrer au moins un poulet ou un godet de pommes de terre',
+        severity: 'warning',
+      });
       return;
     }
     if (chickens > 0 && !canAddChickens(chickens)) {
-      window.confirm(`Stock insuffisant ! Il ne reste que ${remainingChickens} poulet(s) disponible(s).`);
+      notify({
+        message: `Stock insuffisant ! Il ne reste que ${remainingChickens} poulet(s) disponible(s).`,
+        severity: 'error',
+      });
       return;
     }
     const customerName = name.trim() || 'En direct';
@@ -64,6 +83,10 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
     setPotatoBuckets(0);
     // Enlever le focus pour fermer le clavier sur mobile/tablette
     nameInputRef.current?.blur();
+    notify({
+      message: `Livraison directe pour ${customerName}`,
+      severity: 'success',
+    });
   };
 
   return (
@@ -199,6 +222,13 @@ export default function OrderForm({ onNewOrder, onDirectDelivery, config, orders
           </Button>
         </Box>
       </Box>
+      <Notification
+        open={notificationState.open}
+        message={notificationState.options.message}
+        severity={notificationState.options.severity}
+        onClose={handleClose}
+        autoHideDuration={notificationState.options.autoHideDuration}
+      />
     </Box>
   );
 }

@@ -4,6 +4,9 @@ import Typography from '@mui/material/Typography';
 import { ConfigType } from '../types';
 import IconButton from '@mui/material/IconButton';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { useConfirmation, useNotification } from '../hooks/useDialog';
+import ConfirmDialog from './ConfirmDialog';
+import Notification from './Notification';
 
 interface OrderProps {
   order: {
@@ -20,6 +23,8 @@ interface OrderProps {
 
 export default function Order({ order, onDelivered, handleRemove, config }: OrderProps) {
   const { id, name, chickens, potatoBuckets, delivered } = order;
+  const { confirmState, confirm, handleCancel } = useConfirmation();
+  const { notificationState, notify, handleClose } = useNotification();
 
   return (
     <Box width="100%" display="flex" alignItems="center">
@@ -58,9 +63,16 @@ export default function Order({ order, onDelivered, handleRemove, config }: Orde
           ) : (
             <IconButton
               color="error"
-              onClick={() => {
+              onClick={async () => {
                 if (config.confirmDelete) {
-                  if (window.confirm('Êtes-vous sûr de vouloir supprimer la commande ?')) {
+                  const confirmed = await confirm({
+                    title: 'Supprimer la commande',
+                    message: `Êtes-vous sûr de vouloir supprimer la commande de ${name} ?`,
+                    confirmText: 'Supprimer',
+                    cancelText: 'Annuler',
+                    severity: 'error',
+                  });
+                  if (confirmed) {
                     handleRemove(id);
                   }
                 } else {
@@ -72,11 +84,38 @@ export default function Order({ order, onDelivered, handleRemove, config }: Orde
               <DeleteForeverIcon />
             </IconButton>
           )}
-          <Button variant="contained" onClick={() => onDelivered(id)} sx={{ width: 100 }}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              onDelivered(id);
+              notify({
+                message: `Commande de ${name} ${delivered ? 'remise en attente' : 'marquée comme livrée'}`,
+                severity: 'success',
+              });
+            }}
+            sx={{ width: 100 }}
+          >
             {delivered ? 'Relivrer' : 'Livrer'}
           </Button>
         </Box>
       </Box>
+      <ConfirmDialog
+        open={confirmState.open}
+        title={confirmState.options.title}
+        message={confirmState.options.message}
+        onConfirm={confirmState.onConfirm || (() => {})}
+        onCancel={handleCancel}
+        confirmText={confirmState.options.confirmText}
+        cancelText={confirmState.options.cancelText}
+        severity={confirmState.options.severity}
+      />
+      <Notification
+        open={notificationState.open}
+        message={notificationState.options.message}
+        severity={notificationState.options.severity}
+        onClose={handleClose}
+        autoHideDuration={notificationState.options.autoHideDuration}
+      />
     </Box>
   );
 }

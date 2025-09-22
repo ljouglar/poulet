@@ -1,33 +1,23 @@
-import { useEffect, useState } from 'react';
 import OrderForm from './OrderForm';
 import OrderList from './OrderList';
 import { ConfigType, OrderType } from '../types';
 import Container from '@mui/material/Container';
 import StatusLine from './StatusLine';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useNotification } from '../hooks/useDialog';
+import Notification from './Notification';
 
 export default function App() {
-  const [config, setConfig] = useState<ConfigType>(
-    localStorage.getItem('config')
-      ? JSON.parse(localStorage.getItem('config') as string)
-        : {
-          chickenQuantity: 50,
-          chickenPrice: 18,
-          halfChickenPrice: 9,
-          potatoBucketPrice: 5,
-          confirmDelete: true,
-        },
-  );
-  const [orders, setOrders] = useState<Array<OrderType>>(
-    localStorage.getItem('orders') ? JSON.parse(localStorage.getItem('orders')!) : [],
-  );
+  const [config, setConfig] = useLocalStorage<ConfigType>('config', {
+    chickenQuantity: 50,
+    chickenPrice: 18,
+    halfChickenPrice: 9,
+    potatoBucketPrice: 5,
+    confirmDelete: true,
+  });
 
-  useEffect(() => {
-    localStorage.setItem('orders', JSON.stringify(orders));
-  }, [orders]);
-
-  useEffect(() => {
-    localStorage.setItem('config', JSON.stringify(config));
-  }, [config]);
+  const [orders, setOrders] = useLocalStorage<OrderType[]>('orders', []);
+  const { notificationState, notify, handleClose } = useNotification();
 
   const handleNewOrder = (order: { name: string; chickens: number; potatoBuckets: number }) => {
     setOrders((prevOrders) => [...prevOrders, { id: Date.now(), ...order, delivered: false }]);
@@ -44,7 +34,15 @@ export default function App() {
   };
 
   const handleRemove = (orderId: number) => {
+    const orderToRemove = orders.find((order) => order.id === orderId);
     setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
+
+    if (orderToRemove) {
+      notify({
+        message: `Commande de ${orderToRemove.name} supprimée`,
+        severity: 'info',
+      });
+    }
   };
 
   const handleClear = () => {
@@ -57,6 +55,14 @@ export default function App() {
       <OrderForm onNewOrder={handleNewOrder} onDirectDelivery={handleDirectDelivery} config={config} orders={orders} />
       <OrderList orders={orders} onDelivered={toggleDelivered} handleRemove={handleRemove} config={config} />
       <StatusLine config={config} setConfig={setConfig} orders={orders} onClear={handleClear} />
+
+      <Notification
+        open={notificationState.open}
+        message={notificationState.options.message}
+        severity={notificationState.options.severity}
+        onClose={handleClose}
+        autoHideDuration={notificationState.options.autoHideDuration}
+      />
     </Container>
   );
 }
